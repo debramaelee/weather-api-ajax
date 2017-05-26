@@ -1,0 +1,65 @@
+make hbs file with form -this is all in one file***
+in script tags, add jquery
+	var APPID = alsdfkjl
+	$(#weather-form).submit(function(event){
+	even.preventDefault();
+	var city = $(#city).val();
+	$.get('http://api.openweathermap.org/d...', {
+	APPID: APPID,
+	q: city,
+	units: 'imperial'
+	})
+	.then(function(data){
+	console.log('got the data', data);
+	$('#display').html(
+		'Temperature in ' + city + data.main.temp + data.main.temp_max + data.main.temp_min)
+	});
+	});
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Weather App</title>
+	<script src='jquery.js'></script>
+
+</head>
+
+<body>
+	<script>
+
+		
+		var APPID = 'API KEY';
+
+		$.get('http://api.openweathermap.org/data/2.5/weather', {
+			q: 'Atlanta',
+			APPID: APPID
+		})
+		.then(function(data){
+			console.log('data', data);
+			var data = function(resultsArray){
+				resultsArray.forEach(function(result){
+					var html = 'The weather is ' + result.humidity + ' and the temperature is ' + result.pressure;
+					$('#searchresults').append(html);
+				});
+			}
+		});
+
+		$('#searchform input').keyup(function(event){
+			var searchterm  = $('#searchform input').val();
+			var q = searchterm;
+
+			$.get('/search?searchterm=' + searchterm)
+				.then(function(resultsHTML){
+					$('searchresults').html(resultsHTML);
+				});
+		});
+	</script>
+
+	<form action="/search" id="searchform">
+		<input type="text" name="searchterm">
+	</form>
+	<div id="searchresults">
+	</div>
+</body>
+</html>
